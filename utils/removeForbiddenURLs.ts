@@ -30,6 +30,7 @@ export const removeForbiddenURLs = (urls: string[]) => {
   const allowedUrl = urls.filter(
     (url) => !forbiddenUrls.some((forbiddenUrl) => url.includes(forbiddenUrl))
   );
+
   return allowedUrl.filter((url) => {
     const urlObj = new URL(url);
     return urlObj.pathname === "/";

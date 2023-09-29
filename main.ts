@@ -4,14 +4,13 @@ import { scrapeWebsiteAdressesByPrompt } from "./scrapeFunctions/scrapeWebsiteAd
 const main = async () => {
   const phrases = await getPhraseFromPrompt();
 
-  let i = 1;
-  for (const phrase of phrases) {
+  for (const [index, phrase] of phrases.entries()) {
     try {
-      console.log(`=== SCRAPING PHRASE ${phrase}, ${i}/${phrases.length} ===`);
+      console.log(
+        `=== SCRAPING PHRASE ${phrase}, ${index + 1}/${phrases.length} ===`
+      );
       await scrapeWebsiteAdressesByPrompt(phrase);
-      i++;
     } catch (error) {
-      i++;
       console.log(error);
       continue;
     }

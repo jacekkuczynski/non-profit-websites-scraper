@@ -30,14 +30,11 @@ export const scrapeWebsiteAdressesByPrompt = async (query: string) => {
         await page.click(loadMoreResultsSelector);
         await page.waitForTimeout(300);
         await loadMoreResults();
-        return;
-      } else {
-        return;
       }
     } catch (error) {
-      console.log(error);
-      return;
+      console.log("error:", error.code);
     }
+    return;
   };
 
   console.log(`loading more results for query: ${query}`);
@@ -66,7 +63,7 @@ export const scrapeWebsiteAdressesByPrompt = async (query: string) => {
   const dirPath = path.join(__dirname, "..", "..", "scrapedData");
   if (fs.existsSync(dirPath)) {
     let data = JSON.stringify(urlsWoForbidden);
-    fs.writeFile(`${dirPath}/${query}.json`, data, (err) => {
+    fs.writeFile(`${dirPath}/${query}.txt`, data, (err) => {
       if (err) throw err;
       console.log(`Scraped data for phrase: ${query} written to file`);
     });
@@ -76,7 +73,7 @@ export const scrapeWebsiteAdressesByPrompt = async (query: string) => {
         return console.error(err);
       }
       let data = JSON.stringify(urlsWoForbidden);
-      fs.writeFile(`${dirPath}/${query}.json`, data, (err) => {
+      fs.writeFile(`${dirPath}/${query}.txt`, data, (err) => {
         if (err) throw err;
         console.log(`Scraped data for phrase: ${query} written to file`);
       });

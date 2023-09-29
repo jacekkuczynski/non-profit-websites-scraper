@@ -2,15 +2,16 @@ import { Page } from "puppeteer";
 
 export const interceptImageFontMediaRequest = async (page: Page) => {
   await page.setRequestInterception(true);
+  const arrToIntercept = [
+    "image",
+    "stylesheet",
+    "media",
+    "font",
+    "xhr",
+    "websocket",
+  ];
   page.on("request", (req) => {
-    if (
-      req.resourceType() == "image" ||
-      req.resourceType() == "stylesheet" ||
-      req.resourceType() == "media" ||
-      req.resourceType() == "font" ||
-      req.resourceType() == "xhr" ||
-      req.resourceType() == "websocket"
-    ) {
+    if (arrToIntercept.includes(req.resourceType())) {
       req.abort();
     } else {
       req.continue();
