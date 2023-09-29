@@ -62,19 +62,27 @@ export const scrapeWebsiteAdressesByPrompt = async (query: string) => {
   const urlWoDuplicates = Array.from(new Set(getWebsiteAdresses));
   const urlsWoForbidden = removeForbiddenURLs(urlWoDuplicates);
 
-  // make dir "scrapedData" and save to JSON
+  // check if dir exist; make dir "scrapedData" and save to JSON
   const dirPath = path.join(__dirname, "..", "..", "scrapedData");
-  fs.mkdir(dirPath, (err) => {
-    if (err) {
-      return console.error(err);
-    }
+  if (fs.existsSync(dirPath)) {
     let data = JSON.stringify(urlsWoForbidden);
     fs.writeFile(`${dirPath}/${query}.json`, data, (err) => {
       if (err) throw err;
       console.log(`Scraped data for phrase: ${query} written to file`);
     });
-    console.log("Directory created successfully!");
-  });
+  } else {
+    fs.mkdir(dirPath, (err) => {
+      if (err) {
+        return console.error(err);
+      }
+      let data = JSON.stringify(urlsWoForbidden);
+      fs.writeFile(`${dirPath}/${query}.json`, data, (err) => {
+        if (err) throw err;
+        console.log(`Scraped data for phrase: ${query} written to file`);
+      });
+      console.log("Directory created successfully!");
+    });
+  }
 
   await browser.close();
   return;
