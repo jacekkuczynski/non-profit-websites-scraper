@@ -63,7 +63,7 @@ export const scrapeWebsiteAdressesByPrompt = async (query: string) => {
   const urlsWoForbidden = removeForbiddenURLs(urlWoDuplicates);
 
   // make dir "scrapedData" and save to JSON
-  const dirPath = path.join(__dirname, "scrapedData");
+  const dirPath = path.join(__dirname, "..", "..", "scrapedData");
   fs.mkdir(dirPath, (err) => {
     if (err) {
       return console.error(err);
